@@ -5,48 +5,77 @@ import java.util.Random;
 public class Simulator {
     static Entity player = new Entity(20, 10, "Dudeface McGee");
     static Entity monster = new Entity( 10, 10, "Grrface the Meanie");
-    static Random D20 = new Random();
-    static Random D8 = new Random();
-    static Random D6 = new Random();
+    static Random dice = new Random();
 
-
-    private Simulator(){
-    }
-
-
+    private Simulator(){    }
 
     private static void announceAttack(Entity attacker){
         System.out.print(attacker.getName() + " is attacking: ");
     }
-    private static Boolean attack(Entity attacker, Entity defender) {
-
-        announceAttack(attacker);
-        int roll = D20.nextInt(20) + 1;
-        System.out.print("They roll a " + roll + " ");
+    private static Boolean attack(Entity attacker, Entity defender, boolean battleLog) {
+        if (battleLog)
+            announceAttack(attacker);
+        int roll = roll(1,20);
+        if (battleLog)
+            System.out.print("They roll a " + roll + " ");
         if (roll >= defender.getAc()) {
-            System.out.print("HIT!");
-            int damage = D8.nextInt(8) + 1;
-            System.out.println("They do " + damage+ " damage!");
+            if (battleLog)
+                System.out.print("HIT!");
+            int damage = roll(1,8);
+            if (battleLog)
+                System.out.println("They do " + damage+ " damage!");
             defender.setCurrHp(defender.getCurrHp() - damage);
+        }else{
+            if (battleLog)
+                System.out.println("MISS!");
         }
-        else
-            System.out.println("MISS!");
         return (defender.getCurrHp() <= 0);
+    }
+    private static int roll(int numberOfDice, int sidesPerDie){
+        if (numberOfDice <= 0)
+            return 0;
+        return 1 + dice.nextInt(sidesPerDie) + roll(numberOfDice -1, sidesPerDie);
+    }
+    private static int battle(Entity teamOne, Entity teamTwo, boolean battleLog){
+        teamOne.fullHeal();
+        teamTwo.fullHeal();
+        do{
+            if (attack(teamOne, teamTwo, battleLog))
+                break;
+            attack(teamTwo, teamOne, battleLog);
+            System.out.print("\n");
+        } while (teamTwo.getCurrHp() > 0 && teamOne.getCurrHp() > 0);
+        System.out.print("\n");
+        if (teamTwo.getCurrHp() <= 0) {
+            if (battleLog)
+                System.out.println(teamTwo.getName() + " has been defeated!");
+            return 1;
+        }else{
+            if (battleLog)
+                System.out.println(teamOne.getName() + " has been slain!");
+            return 0;
+        }
+    }
+
+    private static void announceWins(Entity entityName, int wins, int fightsTotal){
+        System.out.println("The " + entityName.getName() + " won " + wins +" times out of " + fightsTotal);
     }
     public static void main(String[] args){
         Simulator simulator = new Simulator();
+        int playerWins = 0;
+        int monsterWins = 0;
+        final int FIGHTS = 1000;
 
-        do{
-            if (attack(simulator.player, simulator.monster))
-                break;
-            attack(simulator.monster, simulator.player);
-            System.out.print("\n");
-        } while (simulator.monster.getCurrHp() > 0 && simulator.player.getCurrHp() > 0);
-        System.out.print("\n");
-        if (simulator.monster.getCurrHp() <= 0)
-            System.out.println(simulator.monster.getName() + " has been defeated!");
-        else
-            System.out.println(simulator.player.getName() + " has been slain!");
+        for (int i = 0; i < FIGHTS; i++)
+        {
+            if (simulator.battle(player,monster,false) == 0)
+                monsterWins++;
+            else
+                playerWins++;
+        }
+        announceWins(player,playerWins,FIGHTS);
+        announceWins(monster,monsterWins,FIGHTS);
+
     }
 }
 

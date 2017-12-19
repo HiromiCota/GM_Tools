@@ -2,11 +2,11 @@ package EncounterSimulator;
 
 import static EncounterSimulator.Simulator.*;
 
-public class Driver {
+class Driver {
 
     /**
      * Driver for the simulator
-     * @param args
+     * @param args Whatever command line arguments get passed in. Currently, not supported
      */
     public static void main(String[] args){
         Simulator simulator = new Simulator();

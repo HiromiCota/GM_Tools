@@ -5,14 +5,14 @@ public class Attack {
     enum AttackAttribute { strength, dexterity, constitution, wisdom, intelligence, charisma}
     enum DamageType { hitPoints, strength, dexterity, constitution, wisdom, intelligence, charisma}
 
-    String attackName;
-    AttackType attackType;
-    int numberOfDice;
-    int dieSize;
-    int damageModifier;
-    int toHitModifier;
-    AttackAttribute attackAttribute;
-    DamageType damageType;
+    private String attackName;
+    private AttackType attackType;
+    private int numberOfDice;
+    private int dieSize;
+    private int damageModifier;
+    private int toHitModifier;
+    private AttackAttribute attackAttribute;
+    private DamageType damageType;
 
     public Attack(String attackName, AttackType attackType, int numberOfDice, int dieSize, int damageModifier, int toHitModifier, AttackAttribute attackAttribute, DamageType damageType) {
         this.attackName = attackName;
@@ -48,11 +48,11 @@ public class Attack {
         damageType = DamageType.hitPoints;
     }
 
-    public String getAttackName() {
+    String getAttackName() {
         return attackName;
     }
 
-    public void setAttackName(String attackName) {
+    void setAttackName(String attackName) {
         this.attackName = attackName;
     }
 
@@ -64,7 +64,7 @@ public class Attack {
         this.attackType = attackType;
     }
 
-    public int getNumberOfDice() {
+    int getNumberOfDice() {
         return numberOfDice;
     }
 
@@ -72,7 +72,7 @@ public class Attack {
         this.numberOfDice = numberOfDice;
     }
 
-    public int getDieSize() {
+    int getDieSize() {
         return dieSize;
     }
 
@@ -80,7 +80,7 @@ public class Attack {
         this.dieSize = dieSize;
     }
 
-    public int getDamageModifier() {
+    int getDamageModifier() {
         return damageModifier;
     }
 
@@ -88,7 +88,7 @@ public class Attack {
         this.damageModifier = damageModifier;
     }
 
-    public int getToHitModifier() {
+    int getToHitModifier() {
         return toHitModifier;
     }
 
@@ -96,7 +96,7 @@ public class Attack {
         this.toHitModifier = toHitModifier;
     }
 
-    public AttackAttribute getAttackAttribute() {
+    AttackAttribute getAttackAttribute() {
         return attackAttribute;
     }
 

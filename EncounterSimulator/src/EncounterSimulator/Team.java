@@ -3,7 +3,7 @@ package EncounterSimulator;
 import java.util.ArrayList;
 
 public class Team {
-    ArrayList<Entity> team = new ArrayList<>();
+    private ArrayList<Entity> team = new ArrayList<>();
 
 
     /**

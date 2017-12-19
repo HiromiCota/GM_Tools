@@ -13,13 +13,12 @@ import java.util.ArrayList;
  * as to what the likely outcome will be.
  */
 public class Simulator {
-    final Attack LONG_SWORD = new Attack("Long sword", Attack.AttackType.slashing,1,8);
-
+    private final Attack LONG_SWORD = new Attack("Long sword", Attack.AttackType.slashing,1,8);
 
     //Class level variables
     ArrayList<Entity> TeamOne = new ArrayList<>();
     ArrayList<Entity> TeamTwo = new ArrayList<>();
-    static Random dice = new Random();
+    private static Random dice = new Random();
 
     //Default constructor gives default monsters.
     public Simulator(){
@@ -32,7 +31,7 @@ public class Simulator {
         this.TeamTwo.addAll(TeamTwo);
     }
 
-    static void announceAttack(Entity attacker){ System.out.print(attacker.getName() + " is attacking: "); }
+    private static void announceAttack(Entity attacker){ System.out.print(attacker.getName() + " is attacking: "); }
 
     /**
      * Runs a single attack exchange between the two combatant Entities.
@@ -41,7 +40,7 @@ public class Simulator {
      * @param battleLog Whether or not the blow-by-blow battle log should go to sout
      * @return = true if the attacker won. False otherwise.
      */
-    static Boolean attack(Entity attacker, Entity defender, boolean battleLog) {
+    private static Boolean attack(Entity attacker, Entity defender, boolean battleLog) {
         if (battleLog)
             announceAttack(attacker);
         int roll = roll() + attacker.getToHit();
@@ -69,7 +68,7 @@ public class Simulator {
      * @param sidesPerDie Please be a positive number
      * @return dice total
      */
-    static int roll(int numberOfDice, int sidesPerDie){
+    private static int roll(int numberOfDice, int sidesPerDie){
         if (numberOfDice <= 0)
             return 0;
         return 1 + dice.nextInt(sidesPerDie) + roll(numberOfDice -1, sidesPerDie);
@@ -79,7 +78,7 @@ public class Simulator {
      * Rolls 1d20. Depends on roll(int,int) method
      * @return A random number between 1 and 20, inclusive
      */
-    static int roll(){
+    private static int roll(){
         return roll(1,20);
     }
 

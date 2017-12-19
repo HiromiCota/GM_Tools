@@ -8,13 +8,13 @@ package EncounterSimulator;
  * name is their name
  */
 class Entity {
-    int maxHp;
-    int currHp;
-    int ac;
-    String name;
-    Attack attack;
-    int toHitMod;
-    int damageMod;
+    private int maxHp;
+    private int currHp;
+    private int ac;
+    private String name;
+    private Attack attack;
+    private int toHitMod;
+    private int damageMod;
 
     // Main constructor defaults to fully healed
     Entity(int maxHp, int ac, String name, Attack attack, int toHitMod, int damageMod) {
@@ -49,10 +49,10 @@ class Entity {
     /**
      * Heals up to maximum hit point or healAmount, whichever is lesser.
      *
-     * @param healAmount
+     * @param healAmount The amount of incoming healing
      * @return The amount of healing wasted by hitting the max HP ceiling.
      */
-    int heal(int healAmount){
+    private int heal(int healAmount){
         currHp += healAmount;
         if (currHp > maxHp){
             int overHeal = currHp - maxHp;
@@ -86,10 +86,10 @@ class Entity {
         this.attack = attack;
     }
 
-    public int getMaxHp() {
+    private int getMaxHp() {
         return maxHp;
     }
-    public int getToHit(){
+    int getToHit(){
         return toHitMod + getAttack().getToHitModifier();
     }
     public int getDamage(){
@@ -100,7 +100,7 @@ class Entity {
      * Builds a string with the most pertinent stats for the entity
      *
      * Example string: &gt;DudeFace McGee&lt; strength + 3 1d8+2 (Long sword) AC: 10 HP: 10
-     * @return
+     * @return A string with a fair amount of the entity's information
      */
     public String toString(){
         StringBuilder output = new StringBuilder();

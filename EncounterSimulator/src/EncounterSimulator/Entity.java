@@ -12,14 +12,32 @@ class Entity {
     int currHp;
     int ac;
     String name;
+    Attack attack;
+    int toHitMod;
+    int damageMod;
 
     // Main constructor defaults to fully healed
-    Entity(int maxHp, int ac, String name) {
+    Entity(int maxHp, int ac, String name, Attack attack, int toHitMod, int damageMod) {
         this.maxHp = maxHp;
         this.currHp = maxHp;
         this.ac = ac;
         this.name = name;
+        this.attack = attack;
+        this.toHitMod = toHitMod;
+        this.damageMod = damageMod;
     }
+
+    // Abbreviated constructor has 0 for to hit and damage modifiers
+    Entity(int maxHp, int ac, String name, Attack attack) {
+        this.maxHp = maxHp;
+        this.currHp = maxHp;
+        this.ac = ac;
+        this.name = name;
+        this.attack = attack;
+        this.toHitMod = 0;
+        this.damageMod = 0;
+    }
+
 
     /**
      * Heals up to their maximum hit points, without concern for overheal.
@@ -58,5 +76,39 @@ class Entity {
 
     String getName() {
         return name;
+    }
+
+    public Attack getAttack() {
+        return attack;
+    }
+
+    public void setAttack(Attack attack) {
+        this.attack = attack;
+    }
+
+    public int getMaxHp() {
+        return maxHp;
+    }
+    public int getToHit(){
+        return toHitMod + getAttack().getToHitModifier();
+    }
+    public int getDamage(){
+        return damageMod + getAttack().getDamageModifier();
+    }
+
+    /**
+     * Builds a string with the most pertinent stats for the entity
+     *
+     * Example string: &gt;DudeFace McGee&lt; strength + 3 1d8+2 (Long sword) AC: 10 HP: 10
+     * @return
+     */
+    public String toString(){
+        StringBuilder output = new StringBuilder();
+        output.append("<" + getName() + "> ");
+        output.append(getAttack().getAttackAttribute().toString() + "+" + getAttack().getToHitModifier() + "  ");
+        output.append(getAttack().getNumberOfDice() + "d" + getAttack().getDieSize() + "+" + getAttack().getDamageModifier());
+        output.append("(" + getAttack().getAttackName() + ") ");
+        output.append("AC:" + getAc() + " HP:" + getMaxHp());
+        return output.toString();
     }
 }

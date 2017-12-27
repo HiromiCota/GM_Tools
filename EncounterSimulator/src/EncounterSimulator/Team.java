@@ -2,7 +2,7 @@ package EncounterSimulator;
 
 import java.util.ArrayList;
 
-public class Team {
+public class Team extends ArrayList<Entity>{
     private ArrayList<Entity> team = new ArrayList<>();
 
 
@@ -17,6 +17,12 @@ public class Team {
             output.append("\n");
         }
         return output.toString();
+    }
+
+    void fullHeal(){
+        for (Entity entity : team){
+            entity.fullHeal();
+        }
     }
 
 }

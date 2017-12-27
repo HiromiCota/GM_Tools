@@ -16,26 +16,26 @@ class Driver {
 
         for (int i = 0; i < FIGHTS; i++)
         {
-            if (battle(simulator.TeamOne.get(0),simulator.TeamTwo.get(0),false) == 0)
+            if (battle(simulator.Players.get(0),simulator.Monsters.get(0),false) == 0)
                 monsterWins++;
             else
                 playerWins++;
         }
-        System.out.println("\nCombatants: " + simulator.TeamOne.get(0).toString() + " vs " + simulator.TeamTwo.get(0).toString() );
-        announceWins(simulator.TeamOne.get(0),playerWins,FIGHTS);
-        announceWins(simulator.TeamTwo.get(0),monsterWins,FIGHTS);
+        System.out.println("\nCombatants: " + simulator.Players.get(0).toString() + " vs " + simulator.Monsters.get(0).toString() );
+        announceWins(simulator.Players.get(0),playerWins,FIGHTS);
+        announceWins(simulator.Monsters.get(0),monsterWins,FIGHTS);
         playerWins =0;
         monsterWins = 0;
-        System.out.println("\nCombatants: " + simulator.TeamOne.get(0).toString() + " vs " + simulator.TeamTwo.get(0).toString() );
+        System.out.println("\nCombatants: " + simulator.Players.get(0).toString() + " vs " + simulator.Monsters.get(0).toString() );
         for (int i = 0; i < FIGHTS; i++)
         {
-            if (battle(simulator.TeamTwo.get(0), simulator.TeamOne.get(0),false) == 1)
+            if (battle(simulator.Monsters.get(0), simulator.Players.get(0),false) == 1)
                 monsterWins++;
             else
                 playerWins++;
         }
-        announceWins(simulator.TeamOne.get(0),playerWins,FIGHTS);
-        announceWins(simulator.TeamTwo.get(0),monsterWins,FIGHTS);
+        announceWins(simulator.Players.get(0),playerWins,FIGHTS);
+        announceWins(simulator.Monsters.get(0),monsterWins,FIGHTS);
 
     }
 }

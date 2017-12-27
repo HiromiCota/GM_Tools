@@ -15,6 +15,7 @@ class Entity {
     private Attack attack;
     private int toHitMod;
     private int damageMod;
+    private int initiative = 0; //Initiative is resolved in the simulator
 
     // Main constructor defaults to fully healed
     Entity(int maxHp, int ac, String name, Attack attack, int toHitMod, int damageMod) {
@@ -38,6 +39,13 @@ class Entity {
         this.damageMod = 0;
     }
 
+    public int getInitiative() {
+        return initiative;
+    }
+
+    public void setInitiative(int initiative) {
+        this.initiative = initiative;
+    }
 
     /**
      * Heals up to their maximum hit points, without concern for overheal.

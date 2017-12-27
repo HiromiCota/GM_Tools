@@ -16,22 +16,40 @@ public class Simulator {
     private final Attack LONG_SWORD = new Attack("Long sword", Attack.AttackType.slashing,1,8);
 
     //Class level variables
-    ArrayList<Entity> TeamOne = new ArrayList<>();
-    ArrayList<Entity> TeamTwo = new ArrayList<>();
+    Team Players = new Team();
+    Team Monsters = new Team();
+
     private static Random dice = new Random();
+    private static int PlayerWins = 0;
+    private static int Battles = 0;
 
     //Default constructor gives default monsters.
     public Simulator(){
-        TeamOne.add( new Entity(10, 10, "Dudeface McGee",LONG_SWORD));
-        TeamTwo.add( new Entity(10, 10, "Grrface the Meanie",LONG_SWORD));
+        Players.add( new Entity(10, 10, "Dudeface McGee",LONG_SWORD));
+        Monsters.add( new Entity(10, 10, "Grrface the Meanie",LONG_SWORD));
+        initSimulator();
     }
 
-    public Simulator(ArrayList<Entity> TeamOne, ArrayList<Entity> TeamTwo){
-        this.TeamOne.addAll(TeamOne);
-        this.TeamTwo.addAll(TeamTwo);
+    public Simulator(ArrayList<Entity> Players, ArrayList<Entity> Monsters){
+        this.Players.addAll(Players);
+        this.Monsters.addAll(Monsters);
+        initSimulator();
+    }
+
+    private void initSimulator(){
+        rollInitiative(Players);
+        rollInitiative(Monsters);
+        Players.fullHeal();
+        Monsters.fullHeal();
     }
 
     private static void announceAttack(Entity attacker){ System.out.print(attacker.getName() + " is attacking: "); }
+
+    private static void rollInitiative(Team team){
+        for (Entity entity: team){
+            entity.setInitiative(roll());
+        }
+    }
 
     /**
      * Runs a single attack exchange between the two combatant Entities.
@@ -84,27 +102,27 @@ public class Simulator {
 
     /**
      * Runs a full simulation until one of the Entities dies.
-     * @param teamOne Entity that won initiative
-     * @param teamTwo Entity that lost initiative
+     * @param Players Entity that won initiative
+     * @param Monsters Entity that lost initiative
      * @param battleLog If the blow-by-blow battle log should go to sout
-     * @return Which entity won. 0 = teamOne, 1 = teamTwo
+     * @return Which entity won. 0 = Players, 1 = Monsters
      */
-    static int battle(Entity teamOne, Entity teamTwo, boolean battleLog){
-        teamOne.fullHeal();
-        teamTwo.fullHeal();
+    static int battle(Entity Players, Entity Monsters, boolean battleLog){
+        Players.fullHeal();
+        Monsters.fullHeal();
         do{
-            if (attack(teamOne, teamTwo, battleLog))
+            if (attack(Players, Monsters, battleLog))
                 break;
-            attack(teamTwo, teamOne, battleLog);
-        } while (teamTwo.getCurrHp() > 0 && teamOne.getCurrHp() > 0);
+            attack(Monsters, Players, battleLog);
+        } while (Monsters.getCurrHp() > 0 && Players.getCurrHp() > 0);
 
-        if (teamTwo.getCurrHp() <= 0) {
+        if (Monsters.getCurrHp() <= 0) {
             if (battleLog)
-                System.out.println(teamTwo.getName() + " has been defeated!");
+                System.out.println(Monsters.getName() + " has been defeated!");
             return 1;
         }else{
             if (battleLog)
-                System.out.println(teamOne.getName() + " has been slain!");
+                System.out.println(Players.getName() + " has been slain!");
             return 0;
         }
     }

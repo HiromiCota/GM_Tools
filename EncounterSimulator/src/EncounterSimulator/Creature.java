@@ -7,7 +7,7 @@ package EncounterSimulator;
  * ac is their armor class
  * name is their name
  */
-class Entity {
+class Creature {
     private int maxHp;
     private int currHp;
     private int ac;
@@ -18,7 +18,7 @@ class Entity {
     private int initiative = 0; //Initiative is resolved in the simulator
 
     // Main constructor defaults to fully healed
-    Entity(int maxHp, int ac, String name, Attack attack, int toHitMod, int damageMod) {
+    Creature(int maxHp, int ac, String name, Attack attack, int toHitMod, int damageMod) {
         this.maxHp = maxHp;
         this.currHp = maxHp;
         this.ac = ac;
@@ -29,7 +29,7 @@ class Entity {
     }
 
     // Abbreviated constructor has 0 for to hit and damage modifiers
-    Entity(int maxHp, int ac, String name, Attack attack) {
+    Creature(int maxHp, int ac, String name, Attack attack) {
         this.maxHp = maxHp;
         this.currHp = maxHp;
         this.ac = ac;

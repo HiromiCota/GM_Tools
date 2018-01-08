@@ -2,8 +2,8 @@ package EncounterSimulator;
 
 import java.util.ArrayList;
 
-public class Team extends ArrayList<Entity>{
-    private ArrayList<Entity> team = new ArrayList<>();
+public class Team extends ArrayList<Creature>{
+    private ArrayList<Creature> team = new ArrayList<>();
 
 
     /**
@@ -12,16 +12,16 @@ public class Team extends ArrayList<Entity>{
      */
     public String toString(){
         StringBuilder output = new StringBuilder();
-        for (Entity entity: team){
-            output.append(entity.toString());
+        for (Creature creature : team){
+            output.append(creature.toString());
             output.append("\n");
         }
         return output.toString();
     }
 
     void fullHeal(){
-        for (Entity entity : team){
-            entity.fullHeal();
+        for (Creature creature : team){
+            creature.fullHeal();
         }
     }
 

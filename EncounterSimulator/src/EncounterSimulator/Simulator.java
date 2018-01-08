@@ -25,12 +25,12 @@ public class Simulator {
 
     //Default constructor gives default monsters.
     public Simulator(){
-        Players.add( new Entity(10, 10, "Dudeface McGee",LONG_SWORD));
-        Monsters.add( new Entity(10, 10, "Grrface the Meanie",LONG_SWORD));
+        Players.add( new Creature(10, 10, "Dudeface McGee",LONG_SWORD));
+        Monsters.add( new Creature(10, 10, "Grrface the Meanie",LONG_SWORD));
         initSimulator();
     }
 
-    public Simulator(ArrayList<Entity> Players, ArrayList<Entity> Monsters){
+    public Simulator(ArrayList<Creature> Players, ArrayList<Creature> Monsters){
         this.Players.addAll(Players);
         this.Monsters.addAll(Monsters);
         initSimulator();
@@ -43,22 +43,22 @@ public class Simulator {
         Monsters.fullHeal();
     }
 
-    private static void announceAttack(Entity attacker){ System.out.print(attacker.getName() + " is attacking: "); }
+    private static void announceAttack(Creature attacker){ System.out.print(attacker.getName() + " is attacking: "); }
 
     private static void rollInitiative(Team team){
-        for (Entity entity: team){
-            entity.setInitiative(roll());
+        for (Creature creature : team){
+            creature.setInitiative(roll());
         }
     }
 
     /**
      * Runs a single attack exchange between the two combatant Entities.
-     * @param attacker The Entity with the higher initiative
-     * @param defender The Entity with the lower initiative
+     * @param attacker The Creature with the higher initiative
+     * @param defender The Creature with the lower initiative
      * @param battleLog Whether or not the blow-by-blow battle log should go to sout
      * @return = true if the attacker won. False otherwise.
      */
-    private static Boolean attack(Entity attacker, Entity defender, boolean battleLog) {
+    private static Boolean attack(Creature attacker, Creature defender, boolean battleLog) {
         if (battleLog)
             announceAttack(attacker);
         int roll = roll() + attacker.getToHit();
@@ -102,12 +102,12 @@ public class Simulator {
 
     /**
      * Runs a full simulation until one of the Entities dies.
-     * @param Players Entity that won initiative
-     * @param Monsters Entity that lost initiative
+     * @param Players Creature that won initiative
+     * @param Monsters Creature that lost initiative
      * @param battleLog If the blow-by-blow battle log should go to sout
      * @return Which entity won. 0 = Players, 1 = Monsters
      */
-    static int battle(Entity Players, Entity Monsters, boolean battleLog){
+    static int battle(Creature Players, Creature Monsters, boolean battleLog){
         Players.fullHeal();
         Monsters.fullHeal();
         do{
@@ -127,9 +127,9 @@ public class Simulator {
         }
     }
 
-    static void announceWins(Entity entityName, int wins, int fightsTotal){
-        System.out.println("The " + entityName.getName() + " won " + wins +" times out of " + fightsTotal);
-        System.out.println(entityName.getName() + "'s win percentage is: " + String.format("%,.2f%%", 100.0* (float)wins/fightsTotal));
+    static void announceWins(Creature creatureName, int wins, int fightsTotal){
+        System.out.println("The " + creatureName.getName() + " won " + wins +" times out of " + fightsTotal);
+        System.out.println(creatureName.getName() + "'s win percentage is: " + String.format("%,.2f%%", 100.0* (float)wins/fightsTotal));
     }
 
 

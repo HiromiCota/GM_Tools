@@ -103,18 +103,21 @@ public class Simulator {
 
     /**
      * Runs a full simulation until one of the Entities dies.
-     * @param Players Creature that won initiative
-     * @param Monsters Creature that lost initiative
+     * @param Players Player Creature
+     * @param Monsters Monster Creature
      * @param battleLog If the blow-by-blow battle log should go to sout
      * @return Which entity won. 0 = Players, 1 = Monsters
      */
     static int battle(Creature Players, Creature Monsters, boolean battleLog){
         Players.fullHeal();
         Monsters.fullHeal();
+        //Determine who won initiative
+        Creature Attacker = (Players.getInitiative() > Monsters.getInitiative()) ? Players : Monsters;
+        Creature Defender = (Attacker != Players) ? Players : Monsters;
         do{
-            if (attack(Players, Monsters, battleLog))
+            if (attack(Attacker, Defender, battleLog))
                 break;
-            attack(Monsters, Players, battleLog);
+            attack(Defender, Attacker, battleLog);
         } while (Monsters.getCurrHp() > 0 && Players.getCurrHp() > 0);
 
         if (Monsters.getCurrHp() <= 0) {

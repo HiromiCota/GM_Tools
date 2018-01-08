@@ -52,6 +52,16 @@ public class Attack {
         return attackName;
     }
 
+    public String toString(){
+        StringBuilder output = new StringBuilder();
+        output.append(getAttackName());
+        output.append(": ");
+        output.append(getNumberOfDice());
+        output.append("d");
+        output.append(getDieSize());
+        return output.toString();
+    }
+
     void setAttackName(String attackName) {
         this.attackName = attackName;
     }

@@ -14,11 +14,12 @@ public class SimulatorGUI extends javax.swing.JFrame{
     int fights = 10000;
 
     public static void main(String[] args){
-        JFrame frame = new SimulatorGUI();
+        JFrame frame = new SimulatorGUI("The Encounter Lethality Finder");
         //frame.BasePanel.setVisible(true);
+
         frame.getContentPane().setVisible(true);
         frame.setVisible(true);
-        frame.setMinimumSize(new Dimension(674,379));
+        frame.setMinimumSize(new Dimension(1024,600));
 
     }
 
@@ -30,6 +31,7 @@ public class SimulatorGUI extends javax.swing.JFrame{
         fillWeaponBox(playerWeaponCombo);
         fillWeaponBox(monsterWeaponCombo);
 
+
         this.add(BasePanel);
 
 
@@ -39,18 +41,17 @@ public class SimulatorGUI extends javax.swing.JFrame{
                 if (buildCreatures()){
                     //FIGHT!
                     if (PlayerInitRadio.isSelected())
-                        simulator.Players.get(0).setInitiative(20);
+                        fight(fights,1);
                     else if (MonsterInitButton.isSelected())
-                        simulator.Monsters.get(0).setInitiative(20);
-                    else{
-                        Simulator.rollInitiative(simulator.Players);
-                        Simulator.rollInitiative(simulator.Monsters);
-                    }
-                    fight(fights);
+                        fight(fights,-1);
+                    else
+                        fight(fights,0);
+
 
                     playerOddsLabel.setText(buildOdds(CREATURES.PLAYER));
                     monsterOddsLabel.setText(buildOdds(CREATURES.MONSTER));
-                    lethalityBar.setValue(playerWins/fights);
+                    lethalityBar.setValue(100 * playerWins/fights);
+                    lethalityLabel.setText(buildLethality());
                 }
 
             }
@@ -107,34 +108,69 @@ public class SimulatorGUI extends javax.swing.JFrame{
         }
     }
 
-    void fight(int fights){
+    /**
+     *
+     * @param fights Number of times they should fight
+     * @param initiative Code for who goes first.
+     *                   1 = Player
+     *                   0 = Random
+     *                   -1 = Monster
+     */
+    void fight(int fights, int initiative){
         monsterWins = 0;
         playerWins = 0;
 
-        for (int i = 0; i < fights; i++)
-        {
-            if (Simulator.battle(simulator.Players.get(0),simulator.Monsters.get(0),false) == 0)
-                monsterWins++;
-            else
-                playerWins++;
+        if (initiative == 1)
+            simulator.Players.get(0).setInitiative(20);
+        else if (initiative == -1)
+            simulator.Monsters.get(0).setInitiative(20);
+
+        if (initiative != 0) {
+            for (int i = 0; i < fights; i++) {
+                if (Simulator.battle(simulator.Players.get(0), simulator.Monsters.get(0), false) == 0)
+                    monsterWins++;
+                else
+                    playerWins++;
+            }
+        } else {
+            //This code is mostly recycled, but has to be reused so that we don't make redundant logic checks
+            for (int i = 0; i < fights; i++) {
+                Simulator.rollInitiative(simulator.Players);
+                Simulator.rollInitiative(simulator.Monsters);
+                if (Simulator.battle(simulator.Players.get(0), simulator.Monsters.get(0), false) == 0)
+                    monsterWins++;
+                else
+                    playerWins++;
+            }
         }
     }
+
     String buildOdds(CREATURES creature){
         StringBuilder odds = new StringBuilder();
         if (creature == CREATURES.PLAYER){
             odds.append("Player Survival Odds:");
-            odds.append(String.format("%4.2f",(double)(playerWins/(double)fights)));
+            odds.append(String.format("%4.2f",100 * (double)(playerWins/(double)fights)));
 
         } else{
             odds.append("Monster Survival Odds:");
-            odds.append(String.format("%4.2f",(double)(monsterWins/(double)fights)));
+            odds.append(String.format("%4.2f",100 * (double)(monsterWins/(double)fights)));
         }
         odds.append("%");
         return odds.toString();
     }
+    String buildLethality(){
+        StringBuilder output = new StringBuilder();
+        output.append(100 * playerWins/fights);
+        output.append("% Lethal");
+        return output.toString();
+    }
 
     public SimulatorGUI() {
         initComponents();
+    }
+    public SimulatorGUI(String title){
+        initComponents();
+        this.setTitle(title);
     }
 
     private JPanel BasePanel;
@@ -179,6 +215,7 @@ public class SimulatorGUI extends javax.swing.JFrame{
     private JLabel playerOddsLabel;
     private JLabel monsterOddsLabel;
     private JLabel titleLabel;
+    private JLabel lethalityLabel;
 
 
 }

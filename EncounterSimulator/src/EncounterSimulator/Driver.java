@@ -1,5 +1,7 @@
 package EncounterSimulator;
 
+import javax.swing.*;
+
 import static EncounterSimulator.Simulator.*;
 
 class Driver {
@@ -9,10 +11,17 @@ class Driver {
      * @param args Whatever command line arguments get passed in. Currently, not supported
      */
     public static void main(String[] args){
+        JFrame frame = new JFrame("ELF");
+        SimulatorGUI GUI = new SimulatorGUI();
+        frame.setContentPane(GUI);
+
+        /*
         Simulator simulator = new Simulator();
         int playerWins = 0;
         int monsterWins = 0;
+
         final int FIGHTS = 10000;
+
 
         for (int i = 0; i < FIGHTS; i++)
         {
@@ -36,6 +45,6 @@ class Driver {
         }
         announceWins(simulator.Players.get(0),playerWins,FIGHTS);
         announceWins(simulator.Monsters.get(0),monsterWins,FIGHTS);
-
+        */
     }
 }

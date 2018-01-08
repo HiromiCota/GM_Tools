@@ -2,6 +2,7 @@ package EncounterSimulator;
 
 import java.util.Random;
 import java.util.ArrayList;
+import EncounterSimulator.Armory.*;
 
 /**
  * This is the core class for the combat simulator. It currently contains:
@@ -13,7 +14,7 @@ import java.util.ArrayList;
  * as to what the likely outcome will be.
  */
 public class Simulator {
-    private final Attack LONG_SWORD = new Attack("Long sword", Attack.AttackType.slashing,1,8);
+    Armory armory = new Armory();
 
     //Class level variables
     Team Players = new Team();
@@ -25,8 +26,8 @@ public class Simulator {
 
     //Default constructor gives default monsters.
     public Simulator(){
-        Players.add( new Creature(10, 10, "Dudeface McGee",LONG_SWORD));
-        Monsters.add( new Creature(10, 10, "Grrface the Meanie",LONG_SWORD));
+        Players.add( new Creature(10, 10, "Dudeface McGee",armory.LONG_SWORD));
+        Monsters.add( new Creature(10, 10, "Grrface the Meanie",armory.LONG_SWORD));
         initSimulator();
     }
 
@@ -45,7 +46,7 @@ public class Simulator {
 
     private static void announceAttack(Creature attacker){ System.out.print(attacker.getName() + " is attacking: "); }
 
-    private static void rollInitiative(Team team){
+    static void rollInitiative(Team team){
         for (Creature creature : team){
             creature.setInitiative(roll());
         }

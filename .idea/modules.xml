@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/DiceLab/DiceLab.iml" filepath="$PROJECT_DIR$/DiceLab/DiceLab.iml" />
       <module fileurl="file://$PROJECT_DIR$/EncounterSimulator/EncounterSimulator.iml" filepath="$PROJECT_DIR$/EncounterSimulator/EncounterSimulator.iml" />
       <module fileurl="file://$PROJECT_DIR$/GM_Tools.iml" filepath="$PROJECT_DIR$/GM_Tools.iml" />
     </modules>

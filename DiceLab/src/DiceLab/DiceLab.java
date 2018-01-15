@@ -34,17 +34,18 @@ public class DiceLab {
     void addRoll(int dice, int faces){
         addRoll(new Roll(dice,faces,0,0,0));
     }
+
     int getRoll(Roll roll){
         int output = 0;
         int[] rollArray = new int[roll.dice];
         for (int i = 0; i < roll.dice; i++) { //This costs n
-            rollArray[i] = diceBag.nextInt(roll.faces);
+            rollArray[i] = diceBag.nextInt(roll.faces) +1;
         }
         Arrays.sort(rollArray); //This costs n log n
         for (int i = roll.dropLow; i < roll.dice - roll.dropHigh ; i++){ //This costs another n
             output += rollArray[i];
         }
-        output += roll.modifier +1;
+        output += roll.modifier;
         return output;
     }
     void reset(){
@@ -79,7 +80,16 @@ public class DiceLab {
         }
         mean = (double) total / (double) NUMBER_OF_SIMULATIONS;
     }
-
+    void printArray(){
+        final int NUMBERS_PER_LINE = 20;
+        int numberThisLine = 0;
+        for (Integer result : outcomes){
+            numberThisLine++;
+            if (numberThisLine % NUMBERS_PER_LINE == 0)
+                System.out.print('\n');
+            System.out.print(result + " ");
+        }
+    }
     static String announceRolls(DiceLab roller){
         StringBuilder output = new StringBuilder();
         for (Roll roll : roller.rolls){
@@ -95,7 +105,31 @@ public class DiceLab {
     }
     public static void main(String[] args){
         DiceLab roller = new DiceLab();
-        roller.addRoll(3,20,0,0,2);
+        roller.addRoll(2,6);
+        roller.rollDice();
+        roller.findMean();
+        DiceLab.announceWrap(roller);
+
+        roller.reset();
+        roller.addRoll(3,6);
+        roller.rollDice();
+        roller.findMean();
+        DiceLab.announceWrap(roller);
+
+        roller.reset();
+        roller.addRoll(4,6);
+        roller.rollDice();
+        roller.findMean();
+        DiceLab.announceWrap(roller);
+
+        roller.reset();
+        roller.addRoll(4,6,0,0,1);
+        roller.rollDice();
+        roller.findMean();
+        DiceLab.announceWrap(roller);
+
+        roller.reset();
+        roller.addRoll(1,20);
         roller.rollDice();
         roller.findMean();
         DiceLab.announceWrap(roller);
@@ -107,19 +141,7 @@ public class DiceLab {
         DiceLab.announceWrap(roller);
 
         roller.reset();
-        roller.addRoll(1,20,0,0,0);
-        roller.rollDice();
-        roller.findMean();
-        DiceLab.announceWrap(roller);
-
-        roller.reset();
-        roller.addRoll(2,20,0,1,0);
-        roller.rollDice();
-        roller.findMean();
-        DiceLab.announceWrap(roller);
-
-        roller.reset();
-        roller.addRoll(3,20,0,2,0);
+        roller.addRoll(3,20,0,0,2);
         roller.rollDice();
         roller.findMean();
         DiceLab.announceWrap(roller);
